@@ -20,12 +20,11 @@ public class ApiError {
     private String message;
     private String debugMessage;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     @Setter(AccessLevel.NONE)
-
     private LocalDateTime timestamp;
-    @Setter(AccessLevel.NONE)
 
+    @Setter(AccessLevel.NONE)
     private List<ApiSubError> subErrors;
 
     private ApiError() {
