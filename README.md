@@ -40,9 +40,9 @@ The app defines following CRUD APIs.
 | GET	 | /api/countries/{code} | Get country by code | | [NOT_FOUND](#countrynotfound) |
 | GET	 | /api/countries/{code}/cities | Get cities of country | | [NOT_FOUND](#countrynotfound) |
 | GET	 | /api/countries/{code}/country-languages | Get country languages of country | | [NOT_FOUND](#countrynotfound) |
-| POST	 | /api/countries/add | Add country | [JSON](#countryadd) | [BAD_REQUEST](#countrybadrequest), [CONFLICT](#countryconflict) |
-| POST	 | /api/countries/update | Update country | [JSON](#countryupdate) | [BAD_REQUEST](#countrybadrequest), [NOT_FOUND](#countrynotfound) |
-| POST	 | /api/countries/delete-by-code?code={code} | Delete country by code | | [NOT_FOUND](#countrynotfound), [CONFLICT](#countryconflictforeignkey) |
+| POST	 | /api/countries | Add country | [JSON](#countryadd) | [BAD_REQUEST](#countrybadrequest), [CONFLICT](#countryconflict) |
+| PUT	 | /api/countries/{code} | Update country by code | [JSON](#countryupdate) | [BAD_REQUEST](#countrybadrequest), [NOT_FOUND](#countrynotfound) |
+| DELETE | /api/countries/{code} | Delete country by code | | [NOT_FOUND](#countrynotfound), [CONFLICT](#countryconflictforeignkey) |
 
 ### Cities
 
@@ -50,9 +50,9 @@ The app defines following CRUD APIs.
 | ------ | --- | ----------- | ------------------- | ------------------------------- |
 | GET	 | /api/cities | Get all cities | | |
 | GET	 | /api/cities/{id} | Get city by id | | [NOT_FOUND](#citynotfound) |
-| POST	 | /api/cities/add | Add city | [JSON](#cityadd) | [BAD_REQUEST](#citybadrequest), [CONFLICT](#cityconflict) |
-| POST	 | /api/cities/update | Update city | [JSON](#cityupdate) | [BAD_REQUEST](#citybadrequest), [NOT_FOUND](#citynotfound) |
-| POST	 | /api/cities/delete-by-id?id={id} | Delete city by id | | [NOT_FOUND](#citynotfound) |
+| POST	 | /api/cities | Add city | [JSON](#cityaddorupdate) | [BAD_REQUEST](#citybadrequest), [CONFLICT](#cityconflict) |
+| PUT	 | /api/cities/{id} | Update city by id | [JSON](#cityaddorupdate) | [BAD_REQUEST](#citybadrequest), [NOT_FOUND](#citynotfound) |
+| DELETE | /api/cities/{id} | Delete city by id | | [NOT_FOUND](#citynotfound) |
 
 ### Country Languages
 
@@ -62,15 +62,18 @@ The app defines following CRUD APIs.
 | GET	 | /api/country-languages/{countryCode} | Get all country languages by country code | | [NOT_FOUND](#countrynotfound) |
 | GET	 | /api/country-languages/get-all-by-language/{language} | Get all country languages by language | | |
 | GET	 | /api/country-languages/{countryCode}/{language} | Get country language by country code and language | | [NOT_FOUND](#countrylanguagenotfound) |
-| POST	 | /api/country-languages/add | Add country language | [JSON](#countrylanguageadd) | [BAD_REQUEST](#countrylanguagebadrequest), [CONFLICT](#countrylanguageconflict) |
-| POST	 | /api/country-languages/update | Update country language | [JSON](#countrylanguageupdate) | [NOT_FOUND](#countrylanguagenotfound), [BAD_REQUEST](#countrylanguagebadrequest) |
-| POST	 | /api/country-languages/delete-by-country-language-id | Delete country language by countryLanguageId| [JSON](#countrylanguagedelete) | [NOT_FOUND](#countrylanguagenotfound) |
+| POST	 | /api/country-languages | Add country language | [JSON](#countrylanguageadd) | [BAD_REQUEST](#countrylanguagebadrequest), [CONFLICT](#countrylanguageconflict) |
+| PUT	 | /api/country-languages/{countryCode}/{language} | Update country language by country code and language | [JSON](#countrylanguageupdate) | [NOT_FOUND](#countrylanguagenotfound), [BAD_REQUEST](#countrylanguagebadrequest) |
+| DELETE | /api/country-languages/{countryCode}/{language} | Delete country language by country code and language | | [NOT_FOUND](#countrylanguagenotfound) |
 
 Test them using postman or any other rest client.
 
 ## Sample JSON Request Bodies
 
-##### <a id="countryadd">Add country -> /api/countries/add</a>
+<ul id="countryadd">
+  <li>Add country ->  POST /api/countries</li>
+</ul>
+
 ```json
 {
 	"code": "ABC",
@@ -82,10 +85,13 @@ Test them using postman or any other rest client.
 }
 ```
 
-##### <a id="countryupdate">Update country -> /api/countries/update</a>
+<br>
+<ul id="countryupdate">
+  <li>Update country by code -> PUT /api/countries/{code}</li>
+</ul>
+
 ```json
 {
-	"code": "ABC",
 	"name": "Sample Country 2",
 	"continent": "Europe",
 	"region": "Eastern Europe",
@@ -94,7 +100,12 @@ Test them using postman or any other rest client.
 }
 ```
 
-##### <a id="cityadd">Add city -> /api/cities/add</a>
+<br>
+<ul id="cityaddorupdate">
+  <li>Add city -> POST /api/cities</li>
+  <li>Update city by id -> PUT /api/cities/{id}</li>
+</ul>
+
 ```json
 {
 	"name": "Çarşamba",
@@ -104,18 +115,11 @@ Test them using postman or any other rest client.
 }
 ```
 
-##### <a id="cityupdate">Update city -> /api/cities/update</a>
-```json
-{	
-	"id": 4090, 
-	"name": "Çarşamba",
-	"countryCode": "TUR",
-	"district": "Samsun",
-	"population": 145897
-}
-```
+<br>
+<ul id="countrylanguageadd">
+  <li>Add country language -> POST /api/country-languages</li>
+</ul>
 
-##### <a id="countrylanguageadd">Add country language -> /api/country-languages/add</a>
 ```json
 {
 	"countryLanguageId": {
@@ -127,29 +131,29 @@ Test them using postman or any other rest client.
 }
 ```
 
-##### <a id="countrylanguageupdate">Update country language -> /api/country-languages/update</a>
+<br>
+<ul id="countrylanguageupdate">
+  <li>Update country language by country code and language -> PUT /api/country-languages/{countryCode}/{language}</li>
+</ul>
+
 ```json
 {
-	"countryLanguageId": {
-	    "countryCode": "TUR",
-	    "language": "Sample Language"
-	},
 	"isOfficial": "F",
 	"percentage": 0.89
 }
 ```
 
-##### <a id="countrylanguagedelete">Delete country language by countryLanguageId -> /api/country-languages/delete-by-country-language-id</a>
-```json
-{
-    "countryCode": "TUR",
-    "language": "Sample Language"
-}
-```
-
 ## Sample JSON Exception Responses
 
-##### <a id="countrynotfound"> Get country by code -> /api/countries/{code} <br> Get cities of country -> /api/countries/{code}/cities <br> Get country languages of country -> /api/countries/{code}/country-languages <br> Update country -> /api/countries/update <br> Delete country by code -> /api/countries/delete-by-code?code={code} <br> Get all country languages by country code -> /api/country-languages/{countryCode}</a>
+<ul id="countrynotfound">
+  <li>Get country by code -> GET /api/countries/{code}</li>
+  <li>Get cities of country -> GET /api/countries/{code}/cities</li>
+  <li>Get country languages of country -> GET /api/countries/{code}/country-languages</li>
+  <li>Update country by code -> PUT /api/countries/{code}</li>
+  <li>Delete country by code -> DELETE /api/countries/{code}</li>
+  <li> Get all country languages by country code -> GET /api/country-languages/{countryCode}</li>
+</ul>
+
 ```json
 {
     "status": "NOT_FOUND",
@@ -158,7 +162,12 @@ Test them using postman or any other rest client.
 }
 ```
 
-##### <a id="countrybadrequest"> Add country -> /api/countries/add <br> Update country -> /api/countries/update
+<br>
+<ul id="countrybadrequest">
+  <li>Add country -> POST /api/countries</li>
+  <li>Update country by code -> PUT /api/countries/{code}</li>
+</ul>
+
 ```json
 {
     "status": "BAD_REQUEST",
@@ -175,7 +184,11 @@ Test them using postman or any other rest client.
 }
 ```
 
-##### <a id="countryconflict"> Add country -> /api/countries/add
+<br>
+<ul id="countryconflict">
+  <li>Add country -> POST /api/countries</li>
+</ul>
+
 ```json
 {
     "status": "CONFLICT",
@@ -183,8 +196,12 @@ Test them using postman or any other rest client.
     "timestamp": "14-11-2020 16:48:12"
 }
 ```
-	
-##### <a id="countryconflictforeignkey"> Delete country by code -> /api/countries/delete-by-code?code={code}
+
+<br>
+<ul id="countryconflictforeignkey">
+  <li>Delete country by code -> DELETE /api/countries/{code}</li>
+</ul>
+
 ```json
 {
     "status": "CONFLICT",
@@ -193,7 +210,13 @@ Test them using postman or any other rest client.
 }
 ```
 
-##### <a id="citynotfound"> Get city by id -> /api/cities/{id} <br> Update city -> /api/cities/update <br> Delete city by id -> /api/cities/delete-by-id?id={id}</a>
+<br>
+<ul id="citynotfound">
+  <li>Get city by id -> GET /api/cities/{id}</li>
+  <li>Update city by id -> PUT /api/cities/{id}</li>
+  <li>Delete city by id -> DELETE /api/cities/{id}</li>
+</ul>
+
 ```json
 {
     "status": "NOT_FOUND",
@@ -202,7 +225,12 @@ Test them using postman or any other rest client.
 }
 ```
 
-##### <a id="citybadrequest"> Add city -> /api/cities/add <br> Update city -> /api/cities/update
+<br>
+<ul id="citybadrequest">
+  <li>Add city -> POST /api/cities</li>
+  <li>Update city by id -> PUT /api/cities/{id}</li>
+</ul>
+
 ```json
 {
     "status": "BAD_REQUEST",
@@ -219,7 +247,11 @@ Test them using postman or any other rest client.
 }
 ```
 
-##### <a id="cityconflict"> Add city -> /api/cities/add
+<br>
+<ul id="cityconflict">
+  <li>Add city -> POST /api/cities</li>
+</ul>
+
 ```json
 {
     "status": "CONFLICT",
@@ -228,7 +260,13 @@ Test them using postman or any other rest client.
 }
 ```
 
-##### <a id="countrylanguagenotfound"> Get country language by country code and language -> /api/country-languages/{countryCode}/{language} <br> Update country language -> /api/country-languages/update <br> Delete country language by countryLanguageId -> /api/country-languages/delete-by-country-language-id</a>
+<br>
+<ul id="countrylanguagenotfound">
+  <li>Get country language by country code and language -> GET /api/country-languages/{countryCode}/{language}</li>
+  <li>Update country language by country code and language -> PUT /api/country-languages/{countryCode}/{language}</li>
+  <li>Delete country language by country code and language -> DELETE /api/country-languages/{countryCode}/{language}</li>
+</ul>
+
 ```json
 {
     "status": "NOT_FOUND",
@@ -237,7 +275,12 @@ Test them using postman or any other rest client.
 }
 ```
 
-##### <a id="countrylanguagebadrequest"> Add country language -> /api/country-languages/add <br> Update country language -> /api/country-languages/update</a>
+<br>
+<ul id="countrylanguagebadrequest">
+  <li>Add country language -> POST /api/country-languages</li>
+  <li>Update country language by country code and language -> PUT /api/country-languages/{countryCode}/{language}</li>
+</ul>
+
 ```json
 {
     "status": "BAD_REQUEST",
@@ -253,8 +296,12 @@ Test them using postman or any other rest client.
     ]
 }
 ```
-	
-##### <a id="countrylanguageconflict"> Add country language -> /api/country-languages/add</a>
+
+<br>
+<ul id="countrylanguageconflict">
+  <li>Add country language -> POST /api/country-languages</li>
+</ul>
+
 ```json
 {
     "status": "CONFLICT",

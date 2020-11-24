@@ -44,18 +44,19 @@ public class CountryController {
         return countryLanguageService.getAllByCountryCode(code);
     }
 
-    @PostMapping("/add")
+    @PostMapping
     public void add(@RequestBody Country country) {
         countryService.add(country);
     }
 
-    @PostMapping("/update")
-    public void update(@RequestBody Country country) {
+    @PutMapping("/{code}")
+    public void update(@PathVariable String code, @RequestBody Country country) {
+        country.setCode(code);
         countryService.update(country);
     }
 
-    @PostMapping("/delete-by-code")
-    public void deleteByCode(@RequestParam String code) {
+    @DeleteMapping("/{code}")
+    public void deleteByCode(@PathVariable String code) {
         countryService.deleteByCode(code);
     }
 

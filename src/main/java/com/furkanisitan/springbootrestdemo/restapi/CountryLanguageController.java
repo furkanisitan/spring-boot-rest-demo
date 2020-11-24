@@ -37,18 +37,19 @@ public class CountryLanguageController {
         return countryLanguageService.getByCountryLanguageId(new CountryLanguageId(countryCode, language));
     }
 
-    @PostMapping("/add")
+    @PostMapping
     public void add(@RequestBody CountryLanguage countryLanguage) {
         countryLanguageService.add(countryLanguage);
     }
 
-    @PostMapping("/update")
-    public void update(@RequestBody CountryLanguage countryLanguage) {
+    @PutMapping("/{countryCode}/{language}")
+    public void update(@PathVariable String countryCode, @PathVariable String language, @RequestBody CountryLanguage countryLanguage) {
+        countryLanguage.setCountryLanguageId(new CountryLanguageId(countryCode, language));
         countryLanguageService.update(countryLanguage);
     }
 
-    @PostMapping("/delete-by-country-language-id")
-    public void deleteByCountryLanguageId(@RequestBody CountryLanguageId countryLanguageId) {
-        countryLanguageService.deleteByCountryLanguageId(countryLanguageId);
+    @DeleteMapping("/{countryCode}/{language}")
+    public void deleteByCountryLanguageId(@PathVariable String countryCode, @PathVariable String language) {
+        countryLanguageService.deleteByCountryLanguageId(new CountryLanguageId(countryCode, language));
     }
 }

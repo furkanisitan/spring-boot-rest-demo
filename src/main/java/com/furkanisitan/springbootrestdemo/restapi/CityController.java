@@ -26,18 +26,19 @@ public class CityController {
         return cityService.getById(id);
     }
 
-    @PostMapping("/add")
+    @PostMapping
     public void add(@RequestBody City city) {
         cityService.add(city);
     }
 
-    @PostMapping("/update")
-    public void update(@RequestBody City city) {
+    @PutMapping("/{id}")
+    public void update(@PathVariable int id, @RequestBody City city) {
+        city.setId(id);
         cityService.update(city);
     }
 
-    @PostMapping("/delete-by-id")
-    public void deleteById(@RequestParam int id) {
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable int id) {
         cityService.deleteById(id);
     }
 }
